@@ -74,7 +74,7 @@ void PQueue::push(void *item, int priority) {
 void* PQueue::top()
 {
 	/*== Your code here */
-    if (front == NULL) {
+  if (front == NULL) {
   // cout << "There is nothing at the top.";
     return NULL;
   }
