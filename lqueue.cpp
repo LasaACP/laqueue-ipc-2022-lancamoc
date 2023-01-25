@@ -182,23 +182,27 @@ int lq_setattr (lqd_t __msgid, const struct lq_attr *__mqstat, struct lq_attr *_
 int lq_timedsend (lqd_t __msgid, const char *__msg, size_t __msg_len, unsigned int __msg_prio, int timeout)
 {
     time_t start = time(NULL);
-    bool sent = false;
-    while (true)
+    bool done = false;
+    bool joesanchit = true;
+    while (joesanchit)
     {
         int ret = lq_send(__msgid, __msg, __msg_len, __msg_prio);
         if (ret == 0)
         {
-            sent = true;
+            done = true;
             break;
         }
-        if (time(NULL) - start > timeout)
+        if (time(NULL) - start > timeout) {
             break;
-        usleep(1000);
+            usleep(1000);
+          }
     }
-    if (sent)
+    if (done) {
         return 0;
-    else
+      }
+    else {
         return -1;
+      }
 }
 
 
