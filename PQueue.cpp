@@ -26,9 +26,29 @@
 /*
 * Insert into Priority Queue
 */
-void PQueue::push(void *item, int priority)
-{
-	/* Your code here */
+void PQueue::push(void* item, int priority) {
+    node* temp = new node();
+    temp->data = item;
+    temp->priority = priority;
+
+    if (front == NULL) {
+      front = temp;
+    }
+      
+    else {
+      if (priority < front->priority) {
+          temp->link = front;
+          front = temp;
+      }
+      else {
+        node * current = front;
+        while (current->link != NULL && current->link->priority <= priority) {
+            current = current->link;
+          }
+          temp->link = current->link;
+          current->link = temp;
+      }
+    }
 }
 
 /*
@@ -37,6 +57,10 @@ void PQueue::push(void *item, int priority)
 void* PQueue::top()
 {
 	/* Your code here */
+  if (front == NULL) {
+    return NULL;
+  }
+  return front->data;
 }
 /*
  * Delete from Priority Queue
@@ -44,6 +68,17 @@ void* PQueue::top()
 void PQueue::pop()
 {
 	/* Your code here */
+  
+  if (front == NULL) {
+    std::cout << "underflow!\n"; 
+    return;
+  }
+  
+  node* temp;
+  temp = front;
+  front = temp->link;
+  free(temp);
+  return;
 }
 
 /*
@@ -51,11 +86,16 @@ void PQueue::pop()
  */
 void PQueue::display()
 {
-
 	/* Your code here */
-	
-	/* Use the following out command for the data */
-	std::cout<<ptr->priority<<" "<<(char*)ptr->data<<std::endl;
-
+	if (front == NULL) { 
+    std::cout << "queue is empty\n"; 
+    return;
+  }
+  node* ptr = front;
+  while (ptr) {
+    std::cout<<ptr->priority<<" "<<(char*)ptr->data<<std::endl;
+    ptr = ptr->link;
+  }
+	return;
 }
 	
