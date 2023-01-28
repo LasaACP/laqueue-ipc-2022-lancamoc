@@ -9,7 +9,6 @@
  * (c) copyright 2018, James Shockey - all rights reserved
  * 
  * */
-#include <stdio.h>
 
 struct node
 {

@@ -16,8 +16,6 @@
 #include <cstdlib>
 #include "PQueue.h"
 
-using namespace std;
-
 
 
 /*
@@ -28,61 +26,41 @@ using namespace std;
 /*
 * Insert into Priority Queue
 */
-void PQueue::push(void *item, int priority) {
-    node * temp = new node();
+void PQueue::push(void* item, int priority) {
+    node* temp = new node();
     temp->data = item;
     temp->priority = priority;
-    
+
     if (front == NULL) {
-        front = temp;
+      front = temp;
     }
+      
     else {
-        if (priority < front->priority) {
-            temp->link = front;
-            front = temp;
-        }
-        else {
-            node * current = front;
-            while (current->link != NULL && current->link->priority <= priority) {
-                current = current->link;
-            }
-            temp->link = current->link;
-            current->link = temp;
-        }
+      if (priority < front->priority) {
+          temp->link = front;
+          front = temp;
+      }
+      else {
+        node * current = front;
+        while (current->link != NULL && current->link->priority <= priority) {
+            current = current->link;
+          }
+          temp->link = current->link;
+          current->link = temp;
+      }
     }
 }
-
-
-	/* Your not real code here */
-  /* node * temp = new node();
-  temp->data = item;
-  temp->priority = priority;
-  if (front == NULL)
-    front = temp;
-  else {
-    node * cycle = front;
-    while ((cycle->link != NULL) && (temp->priority > cycle->link->priority))
-      cycle = cycle->link;
-    cycle->link = temp;
-    temp->link = cycle->link->link;
-  }
-} */
 
 /*
  * Delete from Priority Queue
  */
 void* PQueue::top()
 {
-	/*== Your code here */
+	/* Your code here */
   if (front == NULL) {
-  // cout << "There is nothing at the top.";
     return NULL;
   }
-  else {
-    //node * temp = front;
-    //front = front->link;
-    return front->data;
-  } 
+  return front->data;
 }
 /*
  * Delete from Priority Queue
@@ -90,24 +68,34 @@ void* PQueue::top()
 void PQueue::pop()
 {
 	/* Your code here */
-  if (front != NULL) {
-    front = front->link;
+  
+  if (front == NULL) {
+    std::cout << "underflow!\n"; 
+    return;
+  }
+  
+  node* temp;
+  temp = front;
+  front = temp->link;
+  free(temp);
+  return;
 }
 
- else{
-        front = front->link;
-    } 
-  }
+/*
+ * Print Priority Queue
+ */
 void PQueue::display()
 {
-
 	/* Your code here */
-	node * temp = front;
-	/* Use the following out command for the data */
-  while (temp->link != NULL) {
-	 cout<<temp->priority<<" "<<(char*)temp->data<<endl;
-   temp = temp->link;
-    }
-  //cout<<temp->priority<<" "<<(char*)temp->data<<std::endl;
+	if (front == NULL) { 
+    std::cout << "queue is empty\n"; 
+    return;
+  }
+  node* ptr = front;
+  while (ptr) {
+    std::cout<<ptr->priority<<" "<<(char*)ptr->data<<std::endl;
+    ptr = ptr->link;
+  }
+	return;
 }
 	
