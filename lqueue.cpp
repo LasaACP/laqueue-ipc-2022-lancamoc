@@ -21,6 +21,8 @@
 
 #include "lqueue.h"
 #include "PQueue.h"
+#include <time.h>
+#include <unistd.h>
 
 
 typedef int lqd_t;
@@ -175,4 +177,33 @@ int lq_setattr (lqd_t __msgid, const struct lq_attr *__mqstat, struct lq_attr *_
 {
 	return 0;
 }
+
+
+int lq_timedsend (lqd_t __msgid, const char *__msg, size_t __msg_len, unsigned int __msg_prio, int timeout)
+{
+    time_t start = time(NULL);
+    bool done = false;
+    bool joesanchit = true;
+    while (joesanchit)
+    {
+        int ret = lq_send(__msgid, __msg, __msg_len, __msg_prio);
+        if (ret == 0)
+        {
+            done = true;
+            break;
+        }
+        if (time(NULL) - start > timeout) {
+            break;
+            usleep(1000);
+          }
+    }
+    if (done) {
+        return 0;
+      }
+    else {
+        return -1;
+      }
+}
+
+
 
